@@ -1,6 +1,6 @@
 # VideoZero Skills
 
-Skills for building animated videos with [Motion Canvas](https://github.com/motion-canvas/motion-canvas). These skills provide comprehensive reference documentation, best practices, shader examples, and agent tooling for programmatic control of the Motion Canvas editor.
+Skills for building animated videos with [Motion Canvas](https://github.com/motion-canvas/motion-canvas). These skills provide comprehensive reference documentation,and agent tooling for programmatic control of the Motion Canvas editor.
 
 - **Docs**: https://archive.canvascommons.io/ (user guides and API reference)
 
@@ -15,7 +15,7 @@ Skills for building animated videos with [Motion Canvas](https://github.com/moti
 ## Install
 
 ```bash
-npx skills add videozero/skills --all
+npx skills add videozero/skills
 ```
 
 ## Contributing
