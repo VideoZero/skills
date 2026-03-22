@@ -150,7 +150,9 @@ export function agentPlugin(options: AgentPluginOptions = {}): Plugin {
             // POST /screenshot
             if (route === '/screenshot' && req.method === 'POST') {
               const body = await parseBody(req);
-              const name = body.name ?? `frame-${browserState.frame}`;
+              // Sanitize name: strip path separators and dots to prevent path traversal
+              const rawName = body.name ?? `frame-${browserState.frame}`;
+              const name = rawName.replace(/[\/\\\.]+/g, '_').replace(/^_+|_+$/g, '');
 
               const result = await sendToBrowser('screenshot');
               const base64Data = result.data.replace(/^data:image\/png;base64,/, '');
@@ -160,6 +162,14 @@ export function agentPlugin(options: AgentPluginOptions = {}): Plugin {
               }
 
               const filePath = path.join(screenshotDir, `${name}.png`);
+
+              // Verify the resolved path is inside screenshotDir
+              const resolvedDir = path.resolve(screenshotDir);
+              const resolvedFile = path.resolve(filePath);
+              if (!resolvedFile.startsWith(resolvedDir + path.sep)) {
+                return jsonResponse(res, {error: 'Invalid screenshot name'}, 400);
+              }
+
               fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
 
               return jsonResponse(res, {ok: true, path: filePath, frame: result.frame});

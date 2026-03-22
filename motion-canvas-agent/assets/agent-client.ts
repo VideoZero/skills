@@ -87,10 +87,15 @@ function serializeNode(node: any, depth = 0, maxDepth = 10): any {
     if (fill) result.fill = String(fill);
   } catch {}
 
-  // Text
+  // Text (sanitized — scene content is untrusted user data)
   try {
     const text = node.text?.();
-    if (text) result.text = String(text).substring(0, 100);
+    if (text) {
+      // Strip control characters and limit length
+      result.text = String(text)
+        .replace(/[\x00-\x1f\x7f]/g, '')
+        .substring(0, 100);
+    }
   } catch {}
 
   // Children

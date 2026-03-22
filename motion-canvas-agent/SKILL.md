@@ -183,6 +183,12 @@ curl -s -X POST localhost:9000/__agent/settings/background \
 curl -s -X POST localhost:9000/__agent/render
 ```
 
+## Security
+
+- **Localhost only**: The agent API runs on the Vite dev server which binds to localhost by default. Do not expose it to the network (avoid `--host 0.0.0.0` in production)
+- **Screenshot paths**: The screenshot name is sanitized — path separators and dots are stripped, and the resolved path is verified to stay inside the configured `screenshotDir`
+- **Scene graph text**: Text content extracted from the scene graph is sanitized (control characters stripped, truncated to 100 chars). Treat scene graph data as untrusted when processing it
+
 ## How It Works
 
 - **Runtime plugin** (`agentClient()`) uses `Plugin.player()`, `Plugin.renderer()`, and `Plugin.project()` callbacks to capture the Player, Renderer, and Project instances
