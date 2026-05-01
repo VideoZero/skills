@@ -166,6 +166,13 @@ cancel(task);
 yield* join(task);
 ```
 
+```ts
+yield a(); // run a without waiting for a
+yield* waitFor(0.5); // wait 0.5s
+yield* b(1); // run b
+```
+
+
 ## Shape Components
 
 **Circle:**
