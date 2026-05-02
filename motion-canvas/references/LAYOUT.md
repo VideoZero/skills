@@ -80,7 +80,7 @@ Child nodes are **not** automatically centered inside their parent. Without `lay
 
 ## Opting Out of Layout for Specific Children
 
-Layout controls the size and position of all its children. If a child needs to manage its own size (e.g. a reactively-sized circle), wrap it in a fixed-size slot with `layout={false}` inside:
+Layout controls the size **and position** of all its children: position tweens (`position.x`, `position.y`) and `spring()` callbacks that set position will be silently overridden every frame. To animate position inside a layout, or to give a child reactive sizing the layout shouldn't override, wrap it in a fixed-size slot containing `<Rect layout={false}>`:
 
 ```ts
 <Layout layout direction={'column'} gap={40} alignItems={'center'}>
@@ -88,15 +88,19 @@ Layout controls the size and position of all its children. If a child needs to m
 
   {/* Fixed-size slot participates in the layout */}
   <Rect width={400} height={400}>
-    {/* layout={false} lets children control their own size */}
+    {/* layout={false} lets children control their own size + position */}
     <Rect layout={false}>
-      <Circle width={() => radius() * 2} height={() => radius() * 2} stroke={'#818CF8'} lineWidth={3} />
+      <Circle ref={circle} width={() => radius() * 2} height={() => radius() * 2} stroke={'#818CF8'} lineWidth={3} />
     </Rect>
   </Rect>
 </Layout>
+
+// Now position tweens and springs work — coordinates are local to the layout={false} wrapper
+yield* circle().position.x(150, 1);
+yield* spring(PlopSpring, -150, 150, v => circle().position.x(v));
 ```
 
-Without `layout={false}`, the layout engine overrides the circle's reactive width/height and stretches it to fill the container.
+Without `layout={false}`, the layout engine overrides the circle's reactive width/height/position. The alternative if you can't add a wrapper: animate properties the layout doesn't control (`scale`, `rotation`, `opacity`), or use FLIP helpers (see [FLIP](../../skills-internal/engine/references/FLIP.md)) for reordering and reflows.
 
 ## Examples
 
