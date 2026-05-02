@@ -10,7 +10,7 @@ Skills for building animated videos with [Motion Canvas](https://github.com/moti
 |-------|-------------|
 | **motion-canvas** | Framework reference — components, signals, refs, layout, transitions, filters, gradients, shaders, and 18 reference docs |
 | **motion-canvas-agent** | HTTP API for programmatic editor control — seek, screenshot, scene graph inspection, settings, rendering |
-| **motion-graphics-fundamentals** | 12 principles of animation and timing guidance |
+| **animation-basics** | 12 principles of animation and timing guidance |
 
 ## Install
 
