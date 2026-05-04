@@ -1,6 +1,6 @@
 # VideoZero Skills
 
-Skills for building animated videos with [Motion Canvas](https://github.com/motion-canvas/motion-canvas). These skills provide comprehensive reference documentation,and agent tooling for programmatic control of the Motion Canvas editor.
+Skills for building animated videos with [Motion Canvas](https://github.com/motion-canvas/motion-canvas). These skills provide comprehensive reference documentation and agent tooling for programmatic control of the Motion Canvas editor. Demo video available here: [Demo](https://www.youtube.com/watch?v=e8eHLTMWLlo)
 
 - **Docs**: https://archive.canvascommons.io/ (user guides and API reference)
 
