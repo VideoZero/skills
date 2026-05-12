@@ -19,6 +19,56 @@ import {Layout, Rect, Circle} from '@motion-canvas/2d';
 </Layout>
 ```
 
+## Stack Helpers: VStack and HStack
+
+`VStack` and `HStack` (from `@motion-canvas/2d`) are pre-configured `Layout` nodes. **`layout` is implicit** — passing it explicitly is a TypeScript error (`Property 'layout' does not exist on type 'Omit<LayoutProps, "layout" | "direction">'`). Same for `direction`: VStack is locked to `column`, HStack to `row`. Pass any other `LayoutProps` (size, alignItems, justifyContent, gap, padding, opacity, ref, etc.) normally.
+
+```ts
+import {VStack, HStack} from '@motion-canvas/2d';
+
+// ❌ TypeScript error — VStack has layout/direction locked
+<VStack layout direction={'column'} gap={20}>...</VStack>
+
+// ✅ Just use the props it accepts
+<VStack gap={20} alignItems={'center'}>...</VStack>
+```
+
+### Adding a stack directly under `view`
+
+`view` is not a layout container by default, so a bare `<VStack gap={20}>` added to `view` is sized to its children and centered at the origin (0, 0). That works for compact, naturally-sized content, but if you want a stack that **fills the viewport and centers its children inside the frame**, set explicit dimensions and alignment on the stack itself:
+
+```ts
+// Compact stack, sized to its children, centered at origin (0, 0)
+view.add(
+  <VStack gap={40} alignItems={'center'}>
+    <Txt text={'Title'} fontSize={96} fill={'#fff'} />
+    <Txt text={'Subtitle'} fontSize={48} fill={'#aaa'} />
+  </VStack>
+);
+
+// Fullscreen stack — the stack itself fills the view and centers its children
+view.add(
+  <VStack
+    ref={section}
+    width={'100%'}
+    height={'100%'}
+    alignItems={'center'}
+    justifyContent={'center'}
+    gap={40}
+    opacity={0}
+  >
+    <Txt text={'Title'} fontSize={96} fill={'#fff'} />
+    <Txt text={'Subtitle'} fontSize={48} fill={'#aaa'} />
+  </VStack>,
+);
+```
+
+If a stack appears to render blank or off-screen, the cause is almost always one of:
+- Missing `width`/`height` on the stack itself when you wanted it to span the viewport.
+- Wrapping the stack inside a non-layout `<Rect>` (or `<Node>`) that has its own opaque `fill` and no `layout` enabled — the parent draws on top and the children pile at its origin without flex behaviour. Either add `layout` (with the alignment props) to the wrapper, or skip the wrapper and add the stack directly to `view`.
+
+`opacity={0}` on a stack does propagate to its children — use it to fade whole sections in/out cleanly.
+
 ## Size Properties
 
 ```ts
