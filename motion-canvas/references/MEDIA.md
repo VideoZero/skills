@@ -1,5 +1,11 @@
 # Media Components
 
+> **For animatable SVG content, use `<SVG>` (see `SVG.md`), not `<Img>`.**
+> `<Img>` rasterises the SVG before drawing, so individual paths /
+> groups are inaccessible. `<SVG>` parses the markup into Motion Canvas
+> nodes that can be tweened per-element, morphed, or addressed by id.
+> The `SVG` doc covers the URL-loading pattern (`yield fetch(...)`).
+
 ## Img (Images)
 
 ```ts
