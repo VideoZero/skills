@@ -52,7 +52,18 @@ Keep it simple. Do not add too many details. Clarity and readability beat comple
 
 # Timing Guidance
 
-- Prefer ease-in-out-cubic curves for most animations — natural acceleration and deceleration.
+Pick easing by the role of the animation:
+
+| Role | Easing | Duration |
+|---|---|---|
+| Entrance (element appears) | ease-out | 0.3–0.5s |
+| Exit (element leaves) | ease-in | 0.2–0.3s |
+| In-place change (move, resize, color) | ease-in-out | 0.3–0.8s |
+| Emphasis (pulse, pop) | ease-out with overshoot | 0.2–0.3s |
+| Stagger between grouped items | — | 40–80ms per word, 100–150ms per element |
+
+- Never pair a fade with nothing: entrances combine opacity with a transform (rise,
+  scale, or masked reveal). No entrance should exceed ~0.8s.
 - A quick ease-in-out animation lets you swap icons or SVGs at the 50% mark — the fastest point of movement where the change is least noticeable.
 - Use arc-based interpolation for movements that should follow a curved path, especially with gravity.
 
