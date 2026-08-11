@@ -93,13 +93,25 @@ yield* container().rotation(180, 2); // Label stays upright
 
 ## Matrix Operations
 
+`localToWorld()`, `worldToLocal()` and `localToParent()` take no arguments and
+return a `DOMMatrix`. Transform a point with it via `Vector2.transformAsPoint`:
+
 ```ts
 // Local to world space
-const worldPos = node().localToWorld(new Vector2(100, 0));
+const worldPos = new Vector2(100, 0).transformAsPoint(node().localToWorld());
 
 // World to local space
-const localPos = node().worldToLocal(worldPos);
+const localPos = worldPos.transformAsPoint(node().worldToLocal());
 
 // Local to parent space
-const parentPos = node().localToParent(new Vector2(50, 50));
+const parentPos = new Vector2(50, 50).transformAsPoint(node().localToParent());
+```
+
+Composing the two maps a point from one node's space into another's — the
+standard way to place a node relative to something elsewhere in the tree:
+
+```ts
+const inTarget = point.transformAsPoint(
+  target().worldToLocal().multiply(source().localToWorld()),
+);
 ```

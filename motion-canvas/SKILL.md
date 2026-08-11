@@ -252,7 +252,7 @@ See [Gradients](references/GRADIENTS.md) for radial and conic types.
 See [Txt](references/TXT.md) for full details.
 
 ```ts
-<Txt text={'Hello World'} fontSize={64} fontFamily={'Inter'} fill={'#ffffff'} wrap={true} />
+<Txt text={'Hello World'} fontSize={64} fill={'#ffffff'} textWrap={true} />
 ```
 
 ## Custom Components

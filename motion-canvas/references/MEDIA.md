@@ -155,8 +155,12 @@ video().play();
 yield* waitFor(5);  // Let video play for 5 seconds
 video().pause();
 
-// Or use video time as a signal
-yield* video().getCurrentTime();
+// getCurrentTime() is a plain getter returning seconds — read it, don't yield it
+const elapsed = video().getCurrentTime();
+
+// Seek to an absolute time, then hold on that frame
+video().seek(12);
+yield* waitFor(1);
 ```
 
 ## Audio
