@@ -1,6 +1,6 @@
 ---
 name: motion-canvas-agent
-description: Agent tooling for Motion Canvas — seek, screenshot, scene graph inspection, settings control, and rendering via HTTP API. Requires a browser with the editor open.
+description: Agent tooling for Motion Canvas — seek, screenshot, scene graph inspection, settings control, and rendering via HTTP API. Use when an agent needs to visually verify, screenshot, inspect or render a running Motion Canvas editor. Requires a browser with the editor open.
 ---
 
 # Motion Canvas Agent Plugin

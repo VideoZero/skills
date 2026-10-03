@@ -21,6 +21,8 @@ import {Layout, Rect, Circle} from '@motion-canvas/2d';
 
 ## Stack Helpers: VStack and HStack
 
+> **Canvas Commons fork / VideoZero runtime only.** These are not in upstream `@motion-canvas/2d@3.17.2`; on upstream, use `<Layout layout direction="column">`.
+
 `VStack` and `HStack` (from `@motion-canvas/2d`) are pre-configured `Layout` nodes. **`layout` is implicit** — passing it explicitly is a TypeScript error (`Property 'layout' does not exist on type 'Omit<LayoutProps, "layout" | "direction">'`). Same for `direction`: VStack is locked to `column`, HStack to `row`. Pass any other `LayoutProps` (size, alignItems, justifyContent, gap, padding, opacity, ref, etc.) normally.
 
 ```ts
@@ -150,7 +152,7 @@ yield* circle().position.x(150, 1);
 yield* spring(PlopSpring, -150, 150, v => circle().position.x(v));
 ```
 
-Without `layout={false}`, the layout engine overrides the circle's reactive width/height/position. The alternative if you can't add a wrapper: animate properties the layout doesn't control (`scale`, `rotation`, `opacity`), or use FLIP helpers (see [FLIP](../../skills-internal/engine/references/FLIP.md)) for reordering and reflows.
+Without `layout={false}`, the layout engine overrides the circle's reactive width/height/position. The alternative if you can't add a wrapper: animate properties the layout doesn't control (`scale`, `rotation`, `opacity`), or, on the Canvas Commons fork / VideoZero runtime only, use the container's FLIP methods (`yield* row().addAnimated(node, 0.4)`, `reorderAnimated`, `recordFlipState` + `tweenFlip`) for reordering and reflows.
 
 ## Examples
 

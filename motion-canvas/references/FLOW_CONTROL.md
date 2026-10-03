@@ -63,13 +63,15 @@ yield* sequence(0.1, ...circles.map(c => c.scale(1.5, 0.5)));
 ## loop() — Repeat animation
 
 ```ts
-import {loop} from '@motion-canvas/core';
+import {linear, loop, spawn} from '@motion-canvas/core';
 
-// Repeat 3 times
-yield* loop(3, () => circle().rotation(360, 1));
+// Repeat 3 times. Animate relative to the current value; an absolute
+// target (rotation(360, 1)) would only move on the first pass.
+yield* loop(3, () => circle().rotation(circle().rotation() + 360, 1));
 
-// Infinite (use with spawn)
-yield* loop(Infinity, () => circle().rotation(360, 2));
+// Infinite: run it in the background with spawn. In the main thread,
+// `yield* loop()` without a count logs an error and does nothing.
+spawn(loop(() => circle().rotation(circle().rotation() + 360, 2, linear)));
 ```
 
 ## Nested Flow Control

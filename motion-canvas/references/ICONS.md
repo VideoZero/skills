@@ -1,6 +1,6 @@
 # Icons
 
-Icons are available via the `Icon` component from `@motion-canvas/2d`, powered by Iconify (150,000+ icons across 158 icon sets).
+Icons are available via the `Icon` component from `@motion-canvas/2d`, powered by Iconify (over 200,000 icons across 150+ icon sets).
 
 ## Usage
 
@@ -31,10 +31,14 @@ import {Icon} from '@motion-canvas/2d';
 const iconRef = createRef<Icon>();
 <Icon ref={iconRef} icon={'mdi:heart-outline'} size={100} />
 
-yield* iconRef().icon('mdi:heart', 0.5);
+// Icon names can't be tweened (halfway values like 'mdi:hea' are invalid):
+// fade out, swap the name instantly, fade back in.
+yield* iconRef().opacity(0, 0.2);
+iconRef().icon('mdi:heart');
+yield* iconRef().opacity(1, 0.2);
 yield* iconRef().color('#e13238', 0.5);
 ```
 
 ## Full Icon Catalog
 
-Over 226,000 icons are available across 158 icon sets. Browse the full catalog at [Icones](https://icones.js.org/).
+Over 200,000 icons are available across 150+ icon sets. Browse the full catalog at [Icones](https://icones.js.org/).

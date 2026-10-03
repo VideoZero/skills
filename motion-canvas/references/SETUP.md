@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Node.js 16+ required:
+Node.js 18+ required (Vite 5):
 
 ```bash
 node -v
@@ -82,6 +82,7 @@ Then create the following files:
   "name": "my-project",
   "private": true,
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build"
   },
@@ -171,6 +172,7 @@ To develop against a local clone of the Motion Canvas monorepo, use `file:` depe
   "name": "my-project",
   "private": true,
   "scripts": {
+    "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build"
   },

@@ -33,7 +33,7 @@ yield* count(100, 2); // Text updates automatically
 
 ## Multi-line Text
 
-Use backticks for multi-line strings, **not** `\n` within quotes:
+Use backticks, or `\n` inside a JS expression. A `\n` inside a plain JSX attribute string is not an escape:
 
 ```ts
 // Correct
@@ -41,7 +41,10 @@ Use backticks for multi-line strings, **not** `\n` within quotes:
 Line 2
 Line 3`} textWrap={'pre'} />
 
-// Wrong — \n won't render as newlines
+// Also correct: \n inside a {} expression is a real newline (keep textWrap 'pre')
+<Txt text={'Line 1\nLine 2'} textWrap={'pre'} />
+
+// Wrong: in a JSX attribute string, \n is a literal backslash + n
 <Txt text="Line 1\nLine 2" />
 ```
 
@@ -49,7 +52,8 @@ Line 3`} textWrap={'pre'} />
 
 | Value | Behavior |
 |-------|----------|
-| `false` | No wrapping — text overflows (default) |
+| *(unset)* | Default: inherits from the parent layout. At the root: `false` on the Canvas Commons fork; follows CSS `white-space` (wraps) on upstream 3.17.2 |
+| `false` | No wrapping — text overflows |
 | `true` | Wraps text at word boundaries within parent width |
 | `'pre'` | Preserves whitespace and line breaks (use with backtick strings) |
 

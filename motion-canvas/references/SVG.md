@@ -15,11 +15,11 @@ import svgContent from './assets/drawing.svg?raw';
 <SVG svg={svgContent} width={400} height={400} />
 ```
 
-## Loading an SVG from a URL (e.g. asset URLs)
+## Loading an SVG from a URL
 
-The `svg` prop takes the **source string**, not a URL. For SVG assets
-served from `/media/resolve/<key>` (uploads, Wikipedia), fetch the bytes
-at scene start by **yielding the promise** — Motion Canvas's threading
+The `svg` prop takes the **source string**, not a URL. For an SVG file
+served by your dev server or a CDN, fetch the bytes at scene start by
+**yielding the promise** — Motion Canvas's threading
 runtime resolves yielded promises automatically. `await` does NOT work
 inside a `makeScene2D` generator (it's not an async function); `yield` does.
 
@@ -28,7 +28,7 @@ import {SVG, makeScene2D} from '@motion-canvas/2d';
 
 export default makeScene2D(function* (view) {
   // Yield the fetch promise — runtime resolves it before continuing.
-  const svgSource: string = yield fetch(asset.url).then(r => r.text());
+  const svgSource: string = yield fetch('/logo.svg').then(r => r.text());
 
   view.add(<SVG svg={svgSource} width={400} height={400} />);
 

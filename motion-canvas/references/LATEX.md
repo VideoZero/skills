@@ -16,8 +16,8 @@ import {Latex} from '@motion-canvas/2d';
 // No escape needed in JSX attribute:
 <Latex tex="{\frac{1}{2}}" />
 
-// Escape necessary in JS expression:
-<Latex tex={'{\frac{1}{2}}'} />
+// Escape the backslash in a JS string expression ('\f' would be a form feed):
+<Latex tex={'{\\frac{1}{2}}'} />
 ```
 
 ## Missing Spaces Fix

@@ -27,10 +27,7 @@ const grad = new Gradient({
 <Rect width={200} height={200} fill={grad} />
 ```
 
-You can also use `angle` instead of `from`/`to`:
-```ts
-new Gradient({type: 'linear', angle: 45, stops: [...]});
-```
+Linear gradients always use `from`/`to`. To get an angled linear gradient, place `from`/`to` along that angle. `angle` is read only by conic gradients.
 
 ## Radial Gradient
 
@@ -70,9 +67,9 @@ const grad = new Gradient({
 | Property | Type | Description |
 |----------|------|-------------|
 | `type` | `'linear' \| 'radial' \| 'conic'` | Gradient type |
-| `from` | `PossibleVector2` | Start position (linear) |
-| `to` | `PossibleVector2` | End position (linear) |
-| `angle` | `number` | Angle in degrees (linear) |
+| `from` | `PossibleVector2` | Start position (linear), inner circle centre (radial), centre (conic) |
+| `to` | `PossibleVector2` | End position (linear), outer circle centre (radial) |
+| `angle` | `number` | Start angle in **radians** (conic only) |
 | `fromRadius` | `number` | Inner radius (radial) |
 | `toRadius` | `number` | Outer radius (radial) |
 | `stops` | `GradientStop[]` | Color stops |

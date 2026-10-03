@@ -137,6 +137,6 @@ yield* tween(2, value => {
 
 // Arc
 yield* tween(2, value => {
-  circle().position(Vector2.arcLerp(start, end, value, 100));
+  circle().position(Vector2.arcLerp(start, end, value)); // optional 4th/5th args: reverse = false, ratio
 });
 ```

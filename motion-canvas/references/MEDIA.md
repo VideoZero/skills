@@ -28,10 +28,9 @@ import photoPng from './assets/photo.png';
 
 Motion Canvas's `Img` has no `objectFit` prop; emulate the three CSS modes
 with a few lines. When the asset's natural dimensions are known up front
-(e.g. populated as `asset.width` / `asset.height` on user-uploaded files),
-the scale can be pre-computed and there's no need to wait for image load.
+(e.g. from your asset pipeline or a manifest), the scale can be pre-computed and there's no need to wait for image load.
 
-Assume a 1920×1080 photo at `https://cdn.example/photo.jpg` for the snippets
+Assume a 1920×1080 photo at the placeholder URL `https://cdn.example/photo.jpg` for the snippets
 below.
 
 **Contain** — fit inside bounds, preserve aspect, may have empty space.
@@ -47,7 +46,7 @@ clipping parent and size the image to overflow on the smaller axis:
 
 ```ts
 const BOX_W = 400, BOX_H = 300;
-const natW = 1920, natH = 1080; // from asset.width / asset.height
+const natW = 1920, natH = 1080; // the image's natural size, if known
 const scale = Math.max(BOX_W / natW, BOX_H / natH);
 
 <Rect width={BOX_W} height={BOX_H} clip>
@@ -108,7 +107,11 @@ import {Icon} from '@motion-canvas/2d';
 const iconRef = createRef<Icon>();
 <Icon ref={iconRef} icon={'mdi:heart-outline'} size={100} />
 
-yield* iconRef().icon('mdi:heart', 0.5);   // Change icon
+// Icon names can't be tweened (halfway values like 'mdi:hea' are invalid):
+// fade out, swap the name instantly, fade back in.
+yield* iconRef().opacity(0, 0.2);
+iconRef().icon('mdi:heart');
+yield* iconRef().opacity(1, 0.2);
 yield* iconRef().color('#e13238', 0.5);     // Change color
 ```
 

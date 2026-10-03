@@ -3,7 +3,7 @@
 ## Basic Camera
 
 ```ts
-import {Camera} from '@motion-canvas/2d';
+import {Camera, Node} from '@motion-canvas/2d';
 
 const camera = createRef<Camera>();
 
@@ -42,7 +42,7 @@ yield* camera().centerOn([200, 100], 1);
 
 > **Note:** `centerOn` requires a duration and always returns a generator. There is no continuous tracking overload — for tracking, reactively bind the camera position instead:
 > ```ts
-> camera().position(() => circle().position().scale(-1));
+> camera().position(() => circle().position()); // circle is a direct child of the camera's scene
 > ```
 
 ## Follow Path
@@ -60,23 +60,25 @@ Split-screen and picture-in-picture effects:
 const cam1 = createRef<Camera>();
 const cam2 = createRef<Camera>();
 
-// Shared content
-view.add(
-  <>
+// Shared content: pass it to each stage as `scene`; do NOT add it to the view
+const scene = (
+  <Node>
     <Circle />
     <Rect />
-  </>
+  </Node>
 );
 
 // Camera viewports (note: prop is `cameraRef`, not `camera`)
 view.add(
   <>
     <Camera.Stage
+      scene={scene}
       cameraRef={cam1}
       x={-400}
       width={800} height={600}
     />
     <Camera.Stage
+      scene={scene}
       cameraRef={cam2}
       x={400}
       width={800} height={600}

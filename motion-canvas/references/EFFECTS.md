@@ -77,7 +77,7 @@ const data = createComputedAsync(async () => {
 // With initial value (avoids null)
 const dataWithDefault = createComputedAsync(
   async () => fetch(url).then(r => r.json()),
-  {fallback: 'data'},
+  {items: []}, // initial value, used until the promise resolves
 );
 ```
 

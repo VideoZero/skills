@@ -1,6 +1,8 @@
 # Sounds
 
-> **@alpha** — Available in v3.18.0-alpha.0+
+> **@alpha**: available in v3.18.0-alpha.0+, not in the `^3.17.2` versions that [Setup](SETUP.md) installs. Install `@motion-canvas/core@3.18.0-alpha.0` (and the matching `2d`/`ui`/`vite-plugin`) to use it.
+>
+> **VideoZero scenes:** don't use `sound()` with file imports. Use the `vzrt` audio helpers (`useSfx`, music) and asset names, as described in the `engine` skill's AUDIO reference.
 
 Programmable sound playback synced to the animation timeline.
 

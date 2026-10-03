@@ -128,7 +128,7 @@ const firstCircle = view.findFirst(is(Circle));
 ## Save / Restore State
 
 ```ts
-yield* circle().save();
+circle().save(); // synchronous: snapshots the current state
 yield* all(circle().position.x(300, 1), circle().scale(2, 1));
 yield* circle().restore(1); // Animate back to saved state
 ```
@@ -167,7 +167,7 @@ yield* join(task);
 ```
 
 ```ts
-yield a(); // run a without waiting for a
+spawn(a()); // run a in the background without waiting for it
 yield* waitFor(0.5); // wait 0.5s
 yield* b(1); // run b
 ```
@@ -244,8 +244,8 @@ See [Gradients](references/GRADIENTS.md) for radial and conic types.
 **Ray:** `<Ray from={[0,0]} to={[300,200]} endArrow />` — animate with `start(1,1)` / `end(0,1)`
 **CubicBezier:** `<CubicBezier p0={..} p1={..} p2={..} p3={..} />`
 **QuadBezier:** `<QuadBezier p0={..} p1={..} p2={..} />`
-**Spline:** `<Spline points={[..]} />` — smooth curves
-**Knot:** `new Knot([x,y], sharpness)` — adjust curve sharpness within Spline
+**Spline:** `<Spline points={[..]} smoothness={0.4} />` — smooth curves; `smoothness` controls how round the curve is
+**Knot:** `<Spline><Knot position={[-200,0]} /><Knot position={[0,0]} startHandle={[-50,0]} /><Knot position={[200,0]} /></Spline>` — explicit control points with optional handles
 
 ## Text Rendering
 
@@ -279,24 +279,32 @@ import {Node, NodeProps, initial, signal} from '@motion-canvas/2d';
 ## Scene Transitions
 
 ```ts
-import {slideTransition, fadeTransition, Direction} from '@motion-canvas/core';
+import {slideTransition, fadeTransition, Direction, Origin} from '@motion-canvas/core';
 yield* slideTransition(Direction.Left);
 ```
 
 **All transitions** (from `@motion-canvas/core`):
-- `slideTransition(Direction.Left)` — slide in from direction
+- `slideTransition(Direction.Left, duration?)` — slide in from a direction (or `slideTransition(Origin.TopLeft)` to slide in from a corner)
 - `fadeTransition(duration?)` — cross-fade
 - `zoomInTransition(area, duration?)` — zoom into a BBox area
 - `zoomOutTransition(area, duration?)` — zoom out from a BBox area
 - `waitTransition(duration?)` — wait without visual transition
 
-**Directions:** Top, Bottom, Left, Right, TopLeft, TopRight, BottomLeft, BottomRight
+**Directions:** `Direction.Top`, `Bottom`, `Left`, `Right`. For diagonals, pass an `Origin` (`Origin.TopLeft`, `Origin.BottomRight`, …).
+
+Add the new scene's content **before** `yield* slideTransition(...)`; otherwise it pops in after the transition.
 
 **Custom:**
 ```ts
-import {useTransition} from '@motion-canvas/core';
-const transition = useTransition(ctx => { /* current */ }, ctx => { /* previous */ });
-yield* transition(1);
+import {createSignal, useTransition} from '@motion-canvas/core';
+const progress = createSignal(0);
+// useTransition returns a function that ENDS the transition. It is not a generator.
+const endTransition = useTransition(
+  ctx => { ctx.globalAlpha = progress(); }, // before the current scene renders
+  ctx => { /* before the previous scene renders */ },
+);
+yield* progress(1, 0.6);
+endTransition();
 ```
 
 ## Advanced Patterns
